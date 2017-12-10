@@ -1,3 +1,6 @@
+//again, it's good, added few data ideas for future work; and again,the next step is to write a paper based on this
+//will need to read literature on this very topic and follow that literature in crafting your paper and 
+// and doing data analysis--keep me posted!
 *______________________________________________________________________
 *Data Management in Stata
 *Kate Cruz, Fall 2017
@@ -15,6 +18,12 @@ Research questions include the following:
 1- Does inaccces to healthy food impact behavior and mental health?
 2- Do counties with lower healthy food access experience worse health outcomes 
 (low birthweight, obesisty loss of life)? 
+
+this seems like a question exactly for usda food deserts:
+https://www.ers.usda.gov/data-products/food-access-research-atlas/go-to-the-atlas.aspx
+https://www.ers.usda.gov/data-products/
+https://www.fns.usda.gov/data-and-statistics
+
 3- How might outcomes differ or vary for those who utilize food stamps (SNAP)? 
 
 ______________________________________________________________________
@@ -98,7 +107,8 @@ replace region=2 if County=="Hunterdon" | County=="Somerset" | County=="Middlese
 recode region (0/1=0 Non-Central) (1.1/2=1 Central), gen(region_2) //this allowed me to create a new level of comaprison looking at Central NJ in particular 
 end
 kregion 
-drop in 22/23 
+//drop in 22/23  //may drop on some condition; it is safer and cleaner>>>
+drop if County==""
 
 //Destring 
 destring *, replace 
@@ -121,8 +131,9 @@ rename (A-E) (County Countyid responses samplesize perstressdays)
 //Drop
 drop F G 
 drop Countyid
-drop in 1/11 
-drop in 22/66 
+//drop in 1/11 
+//drop in 22/66 
+drop if County==""
 
 //Destring
 destring responses, gen(responses_n)
@@ -264,6 +275,7 @@ merge 1:1 County using census16
 drop _merge
 merge 1:1 County using toxic
 drop in 22 //random County obervation appeared and was deleted 
+//again, drop on some condition--safer and cleaner
 
 drop _merge 
 merge 1:1 County using EPAair
